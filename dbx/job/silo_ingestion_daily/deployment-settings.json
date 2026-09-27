@@ -1,0 +1,60 @@
+{
+  "dev": {
+    "name": "silo_ingestion_daily_dev",
+    "performance_target": "STANDARD",
+    "email_notifications": {
+      "on_failure": [],
+      "no_alert_for_skipped_runs": true
+    },
+    "parameters": [
+      {
+        "name": "env",
+        "default": "dev"
+      },
+      {
+        "name": "silo_email",
+        "default": ""
+      }
+    ]
+  },
+  "uat": {
+    "name": "silo_ingestion_daily_uat",
+    "performance_target": "STANDARD",
+    "email_notifications": {
+      "on_failure": [],
+      "no_alert_for_skipped_runs": true
+    },
+    "parameters": [
+      {
+        "name": "env",
+        "default": "uat"
+      },
+      {
+        "name": "silo_email",
+        "default": ""
+      }
+    ]
+  },
+  "prd": {
+    "name": "silo_ingestion_daily",
+    "email_notifications": {
+      "on_failure": [],
+      "no_alert_for_skipped_runs": true
+    },
+    "schedule": {
+      "quartz_cron_expression": "0 0 9 * * ?",
+      "timezone_id": "Australia/Sydney",
+      "pause_status": "UNPAUSED"
+    },
+    "parameters": [
+      {
+        "name": "env",
+        "default": "prd"
+      },
+      {
+        "name": "silo_email",
+        "default": ""
+      }
+    ]
+  }
+}

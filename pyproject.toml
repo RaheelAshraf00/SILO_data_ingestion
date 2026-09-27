@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "silo-ingestion-data"
+version = "0.1.0"
+description = "Databricks pipelines ingesting daily SILO gridded weather data for Australian places from 1990"
+authors = ["Raheel Ashraf"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+# Same Python as the Databricks serverless environment (version 5 ships Python 3.12)
+python = ">=3.12,<3.13"
+
+[tool.poetry.group.dev.dependencies]
+# most of them should be the same as the serverless environment provided in DBX
+# https://docs.databricks.com/aws/en/release-notes/serverless/environment-version/five
+delta-spark = "4.2.0"
+haversine = "2.9.0"  # tests only: reference implementation for the Spark Haversine distance
+pandas = "2.2.3"
+pre-commit = ">=4.0,<5.0"
+pyarrow = "21.0.0"
+pyspark = "^4.1.1"
+pytest = ">=8.0,<9.0"
+requests = "2.32.3"
+ruff = ">=0.15.0 <0.16.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Ruff Configuration
+[tool.ruff]
+line-length = 119
+indent-width = 4
+target-version = "py312"
+
+lint.ignore = [
+    "N812",   # Lowercase `functions` imported as non-lowercase `F`
+]
+
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "*.egg-info",
+    ".vscode",
+    ".ruff_cache",
+]
+
+lint.extend-select = ["I"]
+lint.fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+# Databricks notebook convention:
+# E402 — imports below non-import lines (after %pip install cells and # COMMAND separators)
+# F403 — star import from constants file is intentional
+# F405 — names from star import are intentional; constants are defined in constants.py
+# F821 — get_ipython(), dbutils, spark and display are injected by the IPython/Databricks kernel
+# I001 — import order within notebook cells is intentional; constants must be imported before dependents
+"**/*_notebooks/**/*.py" = ["E402", "F403", "F405", "F821", "I001"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv"]
+skips = ["B608"]  # hardcoded_sql_expressions, skipped to make spark queries more readable.

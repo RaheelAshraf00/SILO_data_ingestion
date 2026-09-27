@@ -1,0 +1,120 @@
+{
+  "name": "silo_ingestion_daily",
+  "email_notifications": {
+    "on_failure": [],
+    "no_alert_for_skipped_runs": true
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "max_concurrent_runs": 1,
+  "queue": {
+    "enabled": true
+  },
+  "performance_target": "PERFORMANCE_OPTIMIZED",
+  "parameters": [
+    {
+      "name": "env",
+      "default": "prd"
+    },
+    {
+      "name": "silo_email",
+      "default": ""
+    }
+  ],
+  "environments": [
+    {
+      "environment_key": "default",
+      "spec": {
+        "environment_version": "5"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "task_key": "run_place__silo_mapping",
+      "notebook_task": {
+        "notebook_path": "SILO/silo_notebooks/place__silo_mapping",
+        "base_parameters": {
+          "env": "{{job.parameters.env}}"
+        },
+        "source": "WORKSPACE"
+      },
+      "environment_key": "default",
+      "timeout_seconds": 1800,
+      "max_retries": 1,
+      "min_retry_interval_millis": 900000,
+      "retry_on_timeout": false,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "run_silo_ingestion",
+      "depends_on": [
+        {
+          "task_key": "run_place__silo_mapping"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "SILO/silo_notebooks/silo_ingestion",
+        "base_parameters": {
+          "env": "{{job.parameters.env}}",
+          "test_mode": "false",
+          "silo_email": "{{job.parameters.silo_email}}"
+        },
+        "source": "WORKSPACE"
+      },
+      "environment_key": "default",
+      "timeout_seconds": 3600,
+      "max_retries": 2,
+      "min_retry_interval_millis": 300000,
+      "retry_on_timeout": false,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "run_place__silo_mapping_qa",
+      "depends_on": [
+        {
+          "task_key": "run_place__silo_mapping"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "SILO/silo_notebooks/place__silo_mapping_qa",
+        "base_parameters": {
+          "env": "{{job.parameters.env}}"
+        },
+        "source": "WORKSPACE"
+      },
+      "environment_key": "default",
+      "timeout_seconds": 1800,
+      "max_retries": 0,
+      "retry_on_timeout": false,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "run_silo_ingestion_qa",
+      "depends_on": [
+        {
+          "task_key": "run_silo_ingestion"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "SILO/silo_notebooks/silo_ingestion_qa",
+        "base_parameters": {
+          "env": "{{job.parameters.env}}"
+        },
+        "source": "WORKSPACE"
+      },
+      "environment_key": "default",
+      "timeout_seconds": 1800,
+      "max_retries": 0,
+      "retry_on_timeout": false,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    }
+  ]
+}

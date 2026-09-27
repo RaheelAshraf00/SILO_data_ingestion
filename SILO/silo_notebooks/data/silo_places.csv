@@ -1,0 +1,51 @@
+place_id,place_name,state,latitude,longitude
+nsw_sydney,Sydney,NSW,-33.8688,151.2093
+nsw_dubbo,Dubbo,NSW,-32.2569,148.6011
+nsw_wagga_wagga,Wagga Wagga,NSW,-35.1082,147.3598
+nsw_griffith,Griffith,NSW,-34.2890,146.0400
+nsw_tamworth,Tamworth,NSW,-31.0927,150.9320
+nsw_orange,Orange,NSW,-33.2833,149.1000
+nsw_moree,Moree,NSW,-29.4650,149.8440
+nsw_narrabri,Narrabri,NSW,-30.3250,149.7830
+nsw_armidale,Armidale,NSW,-30.5130,151.6650
+nsw_broken_hill,Broken Hill,NSW,-31.9530,141.4530
+act_canberra,Canberra,ACT,-35.2809,149.1300
+vic_melbourne,Melbourne,VIC,-37.8136,144.9631
+vic_mildura,Mildura,VIC,-34.2080,142.1240
+vic_shepparton,Shepparton,VIC,-36.3800,145.3990
+vic_bendigo,Bendigo,VIC,-36.7570,144.2790
+vic_ballarat,Ballarat,VIC,-37.5622,143.8503
+vic_horsham,Horsham,VIC,-36.7110,142.1990
+vic_warrnambool,Warrnambool,VIC,-38.3830,142.4820
+vic_sale,Sale,VIC,-38.1060,147.0680
+qld_brisbane,Brisbane,QLD,-27.4698,153.0251
+qld_toowoomba,Toowoomba,QLD,-27.5598,151.9507
+qld_emerald,Emerald,QLD,-23.5270,148.1600
+qld_bundaberg,Bundaberg,QLD,-24.8661,152.3489
+qld_mackay,Mackay,QLD,-21.1411,149.1861
+qld_townsville,Townsville,QLD,-19.2590,146.8169
+qld_cairns,Cairns,QLD,-16.9186,145.7781
+qld_rockhampton,Rockhampton,QLD,-23.3781,150.5136
+qld_longreach,Longreach,QLD,-23.4420,144.2490
+qld_roma,Roma,QLD,-26.5730,148.7870
+qld_mount_isa,Mount Isa,QLD,-20.7256,139.4927
+sa_adelaide,Adelaide,SA,-34.9285,138.6007
+sa_port_lincoln,Port Lincoln,SA,-34.7260,135.8580
+sa_mount_gambier,Mount Gambier,SA,-37.8290,140.7830
+sa_renmark,Renmark,SA,-34.1750,140.7470
+sa_clare,Clare,SA,-33.8330,138.6100
+sa_port_augusta,Port Augusta,SA,-32.4930,137.7650
+wa_perth,Perth,WA,-31.9505,115.8605
+wa_geraldton,Geraldton,WA,-28.7780,114.6140
+wa_esperance,Esperance,WA,-33.8610,121.8920
+wa_albany,Albany,WA,-35.0228,117.8814
+wa_bunbury,Bunbury,WA,-33.3270,115.6410
+wa_merredin,Merredin,WA,-31.4830,118.2790
+wa_kalgoorlie,Kalgoorlie,WA,-30.7490,121.4660
+wa_broome,Broome,WA,-17.9614,122.2359
+wa_kununurra,Kununurra,WA,-15.7730,128.7390
+tas_hobart,Hobart,TAS,-42.8821,147.3272
+tas_launceston,Launceston,TAS,-41.4332,147.1441
+nt_darwin,Darwin,NT,-12.4634,130.8456
+nt_alice_springs,Alice Springs,NT,-23.6980,133.8807
+nt_katherine,Katherine,NT,-14.4650,132.2640
