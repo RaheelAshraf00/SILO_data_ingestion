@@ -12,7 +12,7 @@ from dbx.build_job import JOB_DIR, build_job_definition
 
 _REPO_DIR: Path = Path(__file__).resolve().parents[2]
 _JOB_FILES_DIR: Path = JOB_DIR / "silo_ingestion_daily"
-_REPO_ROOT: str = "/Workspace/Users/someone@example.com/git-silo-ingestion-data"
+_REPO_ROOT: str = "/Workspace/Users/someone@example.com/SILO_data_ingestion"
 
 
 def _read_job_file(file_name: str) -> dict[str, Any]:
@@ -82,4 +82,4 @@ def test_build_job_definition_rejects_unknown_env_and_relative_repo_root() -> No
     with pytest.raises(ValueError, match="Unknown environment"):
         build_job_definition(base_config, deployment_settings, "test", _REPO_ROOT)
     with pytest.raises(ValueError, match="absolute workspace path"):
-        build_job_definition(base_config, deployment_settings, "dev", "Users/someone/git-silo-ingestion-data")
+        build_job_definition(base_config, deployment_settings, "dev", "Users/someone/SILO_data_ingestion")

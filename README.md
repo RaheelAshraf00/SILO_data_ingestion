@@ -1,4 +1,4 @@
-# silo-ingestion-data
+# SILO Data Ingestion
 
 Databricks pipelines that ingest daily gridded weather data from [SILO](https://www.longpaddock.qld.gov.au/silo/)
 (Queensland Government) for 50 public Australian places, from **1 January 1990** to today, into Delta tables,
@@ -37,7 +37,7 @@ SILO/silo_notebooks/data/silo_places.csv        50 public places (capital cities
 ## Repository Structure
 
 ```
-git-silo-ingestion-data/
+SILO_data_ingestion/
 ├── dbx/
 │   ├── build_job.py                 # Builds a ready-to-create job definition for one environment
 │   └── job/silo_ingestion_daily/    # Databricks job definition + per-environment overrides (dev, uat, prd)
@@ -55,6 +55,9 @@ git-silo-ingestion-data/
 poetry install
 poetry run pytest
 ```
+
+PySpark's Python worker processes often fail to start on native Windows, and the tests that build Spark DataFrames
+then fail with "Python worker exited unexpectedly (crashed)". On Windows, run the tests in WSL.
 
 ### Running on Databricks
 
@@ -94,7 +97,7 @@ Build the definition for one environment, then create it with the [Databricks CL
 
 ```bash
 python dbx/build_job.py --env dev \
-    --repo-root /Workspace/Users/<you>/git-silo-ingestion-data \
+    --repo-root /Workspace/Users/<you>/SILO_data_ingestion \
     --silo-email <your-email>
 databricks jobs create --json @dbx/build/silo_ingestion_daily.dev.json
 ```

@@ -5,7 +5,7 @@ Merges dbx/job/<job>/config.json with that environment's block in deployment-set
 the block replace the base ones) and turns the repo-relative notebook paths into absolute workspace paths.
 
 Usage:
-    python dbx/build_job.py --env dev --repo-root /Workspace/Users/<you>/git-silo-ingestion-data
+    python dbx/build_job.py --env dev --repo-root /Workspace/Users/<you>/SILO_data_ingestion
     databricks jobs create --json @dbx/build/silo_ingestion_daily.dev.json
 
 dbx/build/ is git-ignored because --silo-email writes your email address into the generated file.
@@ -69,7 +69,7 @@ def main() -> None:
     parser.add_argument(
         "--repo-root",
         required=True,
-        help="Workspace path of this repository, e.g. /Workspace/Users/<you>/git-silo-ingestion-data.",
+        help="Workspace path of this repository, e.g. /Workspace/Users/<you>/SILO_data_ingestion.",
     )
     parser.add_argument("--silo-email", help="Email address sent to SILO as the API username.")
     parser.add_argument("--job", default=DEFAULT_JOB_NAME, help="Job folder under dbx/job/.")
