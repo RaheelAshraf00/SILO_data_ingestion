@@ -49,7 +49,8 @@ SILO_data_ingestion/
 
 ## Getting Started
 
-**Prerequisites:** Python 3.12, [Poetry](https://python-poetry.org/), Java 17+ (required by PySpark locally).
+**Prerequisites:** Python 3.12, [Poetry](https://python-poetry.org/), Java 17+ (required by PySpark locally). If an
+older Java comes first on your PATH, point `JAVA_HOME` at the Java 17 install.
 
 ```bash
 poetry install
@@ -91,20 +92,49 @@ seconds each). Later runs fetch only the missing dates plus the 30-day refresh w
 
 The job lives in [dbx/job/silo_ingestion_daily/](dbx/job/silo_ingestion_daily/): `config.json` is the base
 definition and `deployment-settings.json` holds the dev, uat and prd overrides. Only prd has a schedule (daily at
-09:00 Australia/Sydney); dev and uat jobs run on demand.
+09:00 Singapore time, `Asia/Singapore`); dev and uat jobs run on demand.
 
-Build the definition for one environment, then create it with the [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/):
+`config.json` can't be sent to Databricks as it is: its notebook paths are relative to the repository, and the
+per-environment settings live in a separate file. [dbx/build_job.py](dbx/build_job.py) merges the two for one
+environment, makes the notebook paths absolute, and writes a ready-to-create definition to `dbx/build/`.
 
-```bash
-python dbx/build_job.py --env dev \
-    --repo-root /Workspace/Users/<you>/SILO_data_ingestion \
-    --silo-email <your-email>
-databricks jobs create --json @dbx/build/silo_ingestion_daily.dev.json
+To create the job with the [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/), run these from the
+repository root. Each command works in bash and PowerShell.
+
+1. Log in to your workspace. This opens your browser; finish signing in before you run the next command.
+   (`--profile DEFAULT` stops the CLI from asking for a profile name.)
+
+   ```bash
+   databricks auth login --host https://<your-workspace>.cloud.databricks.com --profile DEFAULT
+   ```
+
+2. Find your Git folder's workspace path. `databricks current-user me` prints your username (`userName`), and the
+   path is usually `/Workspace/Users/<your-username>/SILO_data_ingestion`. In the workspace you can also open the
+   Git folder's ⋮ menu and choose **Copy URL/path → Full path**.
+3. Build the definition and create the job. The second command prints the new job's `job_id`.
+
+   ```bash
+   python dbx/build_job.py --env dev --repo-root "/Workspace/Users/<your-username>/SILO_data_ingestion" --silo-email "<your-email>"
+   databricks jobs create --json '@dbx/build/silo_ingestion_daily.dev.json'
+   ```
+
+   For the other environments, use `--env uat` or `--env prd` and the matching file name.
+4. Run the job:
+
+   ```bash
+   databricks jobs run-now <job_id>
+   ```
+
+The files in `dbx/build/` are git-ignored because they contain your email address. To get failure alerts, add
+recipients to the job's notifications in the Jobs UI rather than committing email addresses. See
+[SILO/README.md](SILO/README.md#databricks-job) for the task graph.
+
+On Windows, if PowerShell says `databricks` isn't recognized right after you install the CLI, the terminal still
+has the old PATH. Restart the terminal (and VS Code, if you use its terminal), or reload the PATH in place:
+
+```powershell
+$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")
 ```
-
-`--repo-root` is the workspace path of your Git folder. The output in `dbx/build/` is git-ignored because it
-contains your email address. To get failure alerts, add recipients to the job's notifications in the Jobs UI
-rather than committing email addresses. See [SILO/README.md](SILO/README.md#databricks-job) for the task graph.
 
 ## Linting & Formatting
 

@@ -6,7 +6,7 @@ the block replace the base ones) and turns the repo-relative notebook paths into
 
 Usage:
     python dbx/build_job.py --env dev --repo-root /Workspace/Users/<you>/SILO_data_ingestion
-    databricks jobs create --json @dbx/build/silo_ingestion_daily.dev.json
+    databricks jobs create --json '@dbx/build/silo_ingestion_daily.dev.json'
 
 dbx/build/ is git-ignored because --silo-email writes your email address into the generated file.
 """
@@ -88,7 +88,8 @@ def main() -> None:
     output_path: Path = BUILD_DIR / f"{args.job}.{args.env}.json"
     output_path.write_text(json.dumps(job_definition, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {output_path}")
-    print(f"Create the job with: databricks jobs create --json @{output_path}")
+    # Quoted so the command still works when the path contains spaces, and in PowerShell, where @ is special.
+    print(f"Create the job with: databricks jobs create --json '@{output_path}'")
 
 
 if __name__ == "__main__":

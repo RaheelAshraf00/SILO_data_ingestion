@@ -109,7 +109,7 @@ run_place__silo_mapping ──┬──► run_silo_ingestion ──► run_silo
 ```
 
 Notebook paths in `config.json` are relative to the repo root; `dbx/build_job.py` turns them into absolute
-workspace paths for the environment you build. Only `prd` has a schedule (daily at 09:00 Australia/Sydney) and
+workspace paths for the environment you build. Only `prd` has a schedule (daily at 09:00 Singapore time, `Asia/Singapore`) and
 uses performance-optimised serverless; `dev` and `uat` run on demand in the cheaper standard mode. Pass
 `--silo-email` to the build script, or set the `silo_email` job parameter before running. See the
 [root README](../README.md#databricks-job) for the commands.
