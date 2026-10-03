@@ -62,7 +62,7 @@ then fail with "Python worker exited unexpectedly (crashed)". On Windows, run th
 
 ### Running on Databricks
 
-These steps also work on the free [Databricks Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition).
+These steps also work on [Databricks Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition).
 
 1. **Free Edition only:** verify your identity with LinkedIn. Free Edition limits outbound internet access
    until you do (see [Free Edition limitations](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations)),
@@ -80,7 +80,8 @@ These steps also work on the free [Databricks Free Edition](https://docs.databri
 3. Add this repository to your workspace as a Git folder. For a private repository, first link your GitHub
    account in Databricks under **Settings → Linked accounts**.
 4. Run the notebooks in `SILO/silo_notebooks/` in this order with `env=dev`: mapping → mapping QA → ingestion →
-   ingestion QA. For ingestion, set `silo_email` to your email address (SILO requires one as the API username).
+   ingestion QA. Each notebook's widgets appear at the top after its first run. For ingestion, set `silo_email` to
+   your email address (SILO requires one as the API username); the first run stops with an error until you do.
    Start with `test_mode=true` (2 locations, last 30 days). In test mode, ingestion QA checks 1 and 3 fail by
    design. Run ingestion again with `test_mode=false` for the full backfill, then re-run ingestion QA.
 5. Optionally, create the job (below).
@@ -99,7 +100,8 @@ per-environment settings live in a separate file. [dbx/build_job.py](dbx/build_j
 environment, makes the notebook paths absolute, and writes a ready-to-create definition to `dbx/build/`.
 
 To create the job with the [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/), run these from the
-repository root. Each command works in bash and PowerShell.
+repository root. Each command works in bash and PowerShell (on macOS and Linux, use `python3` if `python` isn't
+found).
 
 1. Log in to your workspace. This opens your browser; finish signing in before you run the next command.
    (`--profile DEFAULT` stops the CLI from asking for a profile name.)
